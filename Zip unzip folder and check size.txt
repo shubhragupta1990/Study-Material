@@ -1,0 +1,4 @@
+apt get install zip unzip -y
+
+zip -r devsite_backup.zip devsite_backup
+du -sh *    /// to check folder size

@@ -1,0 +1,211 @@
+***************************************************THEORY******************************************************************
+
+
+
+Docker
+=============
+It is a platform for implementing containaraization
+
+
+Virtualization
+=================
+In virtualization we have a bare metal(H/w) on which we install our host os.on this host os we install hypervisor(vmware ,oracle virtual box etc).On the hypervisor we install our guest os
+and on these guest os we can install our applications.The disadvantage of the above is architecture
+is the applications running on guest os has to pass through multiple layers in order to access
+the hardware resources.This will result in downgraded performance of the applications
+
+
+Installing docker on linux
+============================
+1 open http://get.docker.com
+2 Copy the first 2 commands and paste them in a linux terminal
+    curl -fsSL get.docker.com -o get-docker.sh
+    sh get-docker.sh
+
+3 To check the version of docker running on our machine
+    docker --version
+
+
+Installing docker on windows
+==============================
+1 Open https://docs.docker.com/engine/installation/#supported-platforms
+2 Go to desktops section
+3 Install docker for windows
+
+Note:docker for windows activates an application called HperV.If this hyperv is active it will not allow any virtaulization software to run(vmware,oracle virtual box
+
+
+An image is a collection of bin/lib that are necessary for an application to run.All the docker 
+images are present in the cloud site of docker called hub.docker.com
+
+A Container is a running instance of the image.It is the indivdual application or process that 
+docker has created in our user space
+
+
+Docker Components
+---------------------
+Dcoker Host:This is the machine where docker is installed
+and all the docker images are downloaded.
+
+Docker Client: This is the terminal of docker where we can fire the docker commands
+
+Docker Deamon:This is a background process which takes the commands fired by docker client and 
+sends them to the docker images or contianers or docker registry
+
+Docker Registry:This is the cloud site of docker where all the docker images are present.
+hub.docker.com
+We can also create a private registry which can be accessed
+only by our organisation
+
+
+
+Linking of Docker containers
+-----------------------------
+This can be done in three ways
+1 --link option
+2 Docker compose
+3 Docker networking
+
+
+--link option
+--------------
+This is a depricated way of creating contianer architecture
+We can link multiple docker containers and passdata between them
+
+
+
+
+
+Docker Compose
+-----------------
+This is a feature of docker where we can create an architecture of multiple contianers  accoring to the requirmenets of the devlopment team,Qa team etc
+Docker compose uses yaml script for performing these activites.
+
+All the containers that we want to start and link are given in the compose file in the form of services.All these services can be started or stopped using one single command
+
+
+Install docker compose on linux
+----------------------------------
+1 Open  https://docs.docker.com/compose/install/#install-compose
+
+2 Copy the 2 commands and paste in lunux terminal
+  curl -L  https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+
+
+  chmod +x /usr/local/bin/docker-compose
+
+3 To check the version of dockercompose
+  docker-compose --version
+
+
+Customising Docker images
+----------------------------
+We can create our own docker images and save them in hub.docker.com or in our private docker registry
+This can be done in two ways
+
+1 Create a container customised according to our requirment
+  and save it as a image(snapshot)
+
+2 Use dockerfile
+
+
+
+
+Dockerfile
+-----------
+This is a simple text file which is used for creating dockerimages.It uses a syntax called GO which has certain predefined keywords
+
+Important Keywords in Dockerfile
+---------------------------------
+FROM  --    This is generally the first statement in dockerfile
+            and it is used to specify the base image from which we are creating out dockerimages
+
+MAINTAINER --This is the name of the person or the organisation that has created this dockerfile
+
+
+CMD     --   This is the default instruction that gets executed when the container is started
+
+ENTRYPOINT  -- This is used to pass arguments to the CMD instruction and it can also be used to specify the default process that should be initiated             when a container starts
+
+RUN   --    This is used for package management ie installing or uninstalling s/w using apt or yum package managements
+
+ADD ---   This is used to copy files from the host machine to the docker container or to download some files from a     remote url
+
+EXPOSE -- This is used for specifing what internalport of the  container has to exposed to the outside world
+
+USER  --  This is used to specify the default user credentials  through which we want to login into a container
+
+
+ENV ---  This is used to pass environment variables to the container
+
+WORKINGDIR --- This is used to specify the directory where the CMD instruction should be executed
+
+VOLUME --- Used for attaching volumes to the docker container
+            This will become the default volume for the container
+
+CacheBusting
+-------------
+Whenever we build an image from a dockerfile 
+docker will read the cache(memory) to check which instructions we executed previously.
+It will not execute the commands that are already executed but reads the info from the cache.Only the new instructions will be executed
+
+
+
+Example
+FROM ubunut
+RUN apt-get update
+RUN apt-get install -y git
+
+The above docker file updates the apt repository and installs git on it.Now after a period of time if we update the apt repository by adding some more statements like
+
+RUN apt-get install -y maven tree
+
+Only the above new instruction gets executed.This might result in installing maven and tree from a repository that was update long back.To overcome this problem we can use cache busting uisng &&
+
+The disadvantage of the above process is if the dockerfile is edited after
+a huge time gap we can end up installing s/w's from a apt repository that
+was updated logn time back
+
+To make docker execute all the instructions once again without depending
+on the cache is called as cache busting and it can be done using "--no-cache"
+option in the docker build command
+
+docker build --no-cache -t newubuntu .
+
+Create a dockerfile for installing packages and updating the apt repository using cache busting
+
+
+vim dockerfile
+FROM ubuntu
+MAINTAINER abcd
+RUN apt-get update && apt-get install -y git maven
+
+
+Save and quit
+
+
+
+Volumes
+===============
+Docker containers are ephemeral(temporary) they are created for
+a specific purpose and once it is done they are deleted but the 
+data processed by a container should be presistent
+To access the data even after the container is deleted we can use
+docker volumes
+A docker volume is an external device or folder that is mounted
+on a container in such a way that even after the container is deleted
+we can still access the data
+
+Volumes are of 3 types
+1 Simple docker volumes
+2 Sharable docker volumes
+3 Docker volume containers
+
+Simple docker volumes
+--------------------------
+These volumes can only store the data from the container on the host machine
+even after the container is deleted but it cannot be used by other containers
+
+
+
+

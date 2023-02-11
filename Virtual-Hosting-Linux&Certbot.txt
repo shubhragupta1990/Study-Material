@@ -1,0 +1,66 @@
+1  cd
+    2  yum update -y
+    3  apt-get update
+    4  sudo apt-get install apache2
+    5  service httpd status
+    6  sudo mkdir -p /var/www/shubhra321.tk
+    7  sudo cd /var/www/shubhra321.tk
+    8  cd /var/www
+    9  ls
+   10  cd shubhra321.tk/
+   11  cd
+   12  sudo mkdir -p /var/www/hnsharma23nav.tk
+   13  cd /var/www/hnsharma23nav.tk
+   14* vi index.htmlc
+   15* cdd
+   16  cd /var/www
+   17  cd shubhra321.tk/
+   18  vi index.html
+   19  cd
+   20  cd /etc/apache2/sites-available/
+   21  ll
+   22  cat 000-default.conf
+   23  cd
+   24  cd -
+   25  vi 000-default.conf
+   26  vi shubhra321.tk.conf
+   27  vi hnsharma23nav.tk.conf
+   28  sudo a2ensite shubhra321.tk.conf
+   29  sudo a2ensite hnsharma23nav.tk.conf
+   30  apachectl -t
+   31  systemctl apache2 restart
+   32  systemctl restart apche2
+   33  systemctl start apache2
+   34*
+   35  vi hnsharma23nav.tk.conf
+   36  vi shubhra321.tk.conf
+   37  systemctl start apache2
+   38  cd
+   39  vi /etc/hosts
+   40  systemctl start apache2
+   41  vim /etc/httpd/conf/httpd.conf
+   42  sudo vim /etc/apche2/conf/httpd.conf
+   43  vi /etc/apche2/sites-available/hnsharma23nav.tk.conf
+   44  vi /etc/apache2/sites-available/hnsharma23nav.tk.conf
+   45  vi /etc/apache2/sites-available/shubhra321.tk.conf
+   46  systemctl start apache2
+   47  systemctl restart apache2
+   48  cd /var/www/
+   49  ll
+   50  rm -rf html
+   51  ll
+   52  systemctl restart apache2
+   53  cd
+   54  vi /etc/apache2/sites-available/shubhra321.tk.conf
+   55  systemctl restart apache2
+   56  vi /etc/apache2/sites-available/000-default.conf
+   57  systemctl restart apache2
+   58  vi /etc/apache2/sites-available/000-default.conf
+   59  vi /etc/apache2/sites-available/shubhra321.tk.conf
+   60  systemctl restart apache2
+   61  apt install certbot python3-certbot-apache
+   62  certbot --version
+   63  certbot --apache -d shubhra321.tk -d www.shubhra321.tk
+   64  certbot --apache -d hnsharma23nav.tk -d www.hnsharma23nav.tk
+   65  certbot renew --dry-run
+   66  systemctl status certbot.timer

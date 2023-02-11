@@ -1,0 +1,23 @@
+sudo apt-get install vsftpd
+sudo nano /etc/vsftpd.conf
+listen=YES
+anonymous_enable=YES
+local_enable=YES
+write_enable=YES
+chroot_local_user=YES
+
+sudo service vsftpd restart
+sudo adduser testuser
+sudo chown root:root /home/testuser      ////Give the permissions to the user you have created
+usermod --home /var/www/html/test-dir/ testuser    ////Assign the directory to the user
+sudo service vsftpd restart
+
+###User has been created now, you can open the FileZilla and connect the user
+
+usermod -d /var/www/html/test-dir testuser
+sudo service vsftpd restart   ////If you want to update user folder again 
+passwd testuser  //to give password
+chmod -R 755 /var/www/html/test-dir   ////You can give permissions to the folders for the new user
+userdel testuser  ///to delete user
+userdel -r testuser    ///Delete user with their directory
+

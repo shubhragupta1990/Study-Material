@@ -1,0 +1,16 @@
+#useradd <name> or adduser <name>
+# su - <name>
+$ssh-keygen
+press three time enter
+$ls -al				(There will be .ssh directory go to .ssh directory)
+$cd .ssh
+$ls -al
+$cat -id_rsa				(that is your pem file) save with username.pem(all files)   
+$mv id_rsa.pub authorized_keys 		(rename id_rsa.put to authorized_keys)
+$chmod 600 authorized_keys
+$exit
+#vim /etc/sudoers
+
+<name> ALL=(ALL:ALL) NOPASSWD:ALL
+
+try to connect with pem and enter with sshuser in terminal

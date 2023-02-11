@@ -1,0 +1,6 @@
+Build Authorization Token Root Plugin
+
+buildByToken/build?job=RevolutionTest&token=TacoTuesday
+
+
+http://43.205.138.222:8080/buildByToken/build?job=TEST&token=demo

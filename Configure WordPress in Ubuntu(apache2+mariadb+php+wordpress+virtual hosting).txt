@@ -1,0 +1,106 @@
+$ apache2
+ apt update -y
+ apt-get install apache2
+ systemctl start apache2
+ systemctl enable apache2
+ systemctl status apache2
+$ mariadb-server mariadb-client
+ apt install mariadb-server mariadb-client -y
+ systemctl enable mariadb
+ systemctl status mariadb
+ mariadb -v
+ mysql_secure_installation(Enter for default password
+                          y-To set password
+                          y
+                          New Password
+                          y for anonymous user
+                          n for remotely login
+                          n not removed test database
+                          y reload previllage )///
+ systemctl restart mariadb
+$ php
+ apt install php php-mysql php-gd php-cli php-common -y
+
+///for virtual hosting where you want wordpress///
+cd /var/www
+mkdir shubhra321.tk
+cd shubhra321.tk
+
+$ wordpress
+ apt install wget unzip -y
+Search google(download wordpress- copy link address)
+ wget https://wordpress.org/latest.zip (to download)
+ unzip latest.zip
+ cp -r wordpress/* /var/www/shubhra321.tk
+ sudo chown -R www-data:www-data /var/www/shubhra321.tk
+ {www-data(it has default permission)so we will give full permission to /var/www/html like www-data} 
+ ls -lrt(to check permission) Done wordpress
+
+sudo chmod -R 775 /var/www/shubhra321.tk/
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/shubhra321.tk.conf
+cd /etc/apache2/sites-available
+<VirtualHost *:80>
+  
+    ServerAdmin admin@shubhra321.tk
+    ServerName shubhra321.tk
+    ServerAlias www.shubhra321.tk
+    DocumentRoot /var/www/shubhra321.tk
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+   
+</VirtualHost>
+
+////when we do multiple virtual hosting only then use to override this
+ <Directory /var/www/shubhra321.tk>       
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+
+ </VirtualHost>
+cd ..
+sudo a2ensite shubhra321.tk.conf (to enable this)
+sudo a2dissite 000-default.conf (to disable default)
+systemctl reload apache2
+cd /var/www/shubhra321.tk/
+cp wp-config-sample.php wp-config.php
+vi wp-config.php
+(database username password localhost-ip if want access from another server of mysql)
+
+
+Define::
+SSL for wordpress>>> vi wp-config.php
+define( 'WP_HOME', 'https://shubhra321.tk/' );
+define( 'WP_SITEURL', 'https://shubhra321.tk/' );
+
+
+
+if (strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false)
+        $_SERVER['HTTPS'] = 'on';
+
+
+//Go to browser check witn public ip of instance: get wordpress > continue >
+ mysql -u root -p (Given password at the time of installing mariadb)
+ create database wordpress;
+ create user "wordpressuser"@"%" identified by "123";
+ mysql -u root -p
+ GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpressuser'@'%';
+Go to browser page of wordpress with public ip
+give db name,username,password 
+run this installation
+give title> username >email > install wordpress >login >username & password
+
+TO give remote access to DB:
+
+vi /etc/mysql/mariadb.conf.d/50-server.cnf  (bind address 0.0.0.0 for remote access of mariadb) open 3306 port in remote server to access
+
+ 
+ 
+ 
+
+
+ 
+
+        

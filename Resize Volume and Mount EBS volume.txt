@@ -1,0 +1,131 @@
+#### TO RESIZE VOLUME IN LINUX
+lsblk -f    /to check volume filesystem type
+1. Modify volume from AWS console (Select storage type)
+2. Go inside server and extend volume. 
+For Linux:
+df -h
+sudo file -s /dev/xvd*
+lsblk
+sudo growpart /dev/xvda 1
+lsblk
+df -h
+sudo yum install xfsprogs
+sudo yum install xfsprogs
+df -h
+
+#resize2fs /dev/xvdf
+#xfs_growfs /dev/xvdf
+#df -h     (to verify)
+#resize2fs /dev/xvdf
+
+
+#### TO RESIZE VOLUME IN UBUNTU
+LSBLK
+df -h  to     //verify root volume
+growpart /dev/xvda 1
+df -h
+resize2fs /dev/xvda1
+df -h    //to verify root volume
+
+
+###For WIndows:
+Disk management > right click >extend volume> next > finish
+
+
+lsblk (to check list the available disks)
+sudo file -s /dev/xvdf (Check if the volume has any data using the following command)
+sudo mkfs -t ext4 /dev/xvdf (Format the volume to the ext4 filesystem)
+OR
+sudo mkfs -t xfs /dev/xvdf
+sudo mkdir /newvolume  (Create Dir)
+cd /newvolume  (Goto newvolume dir)
+sudo mount /dev/xvdf /newvolume/ (Mount the volume to “newvolume”)
+df -h (check the disk space to validate the volume mount)
+umount /newvolume (To unmount the volume)
+
+PERMANANT MOUNT:
+lsblk
+cd
+vim /etc/fstab
+I{UUID=555a772f-96ef-4115-ae01-cc44473147e9 /shubhravolume ext4 defaults 0 0
+esc:wq
+mount -a
+lsblk
+sudo umount /dev/xvdf
+lsblk
+
+\\ To Partiotion the mounted disk(LVM)....
+ 1  cd
+    5  init 6 (Reboot)
+    6  ls
+    7  lsblk
+    8  sudo file -s /dev/xvdf
+    9  sudo mkfs -t ext4 /dev/xvdf
+   10  ls
+   11  sudo mkdir /shubhravolume
+   12  ls
+   13  cd /shubhravolume/
+   14  df -h
+   15  sudo mount /dev/xvdf/shubhravolume/
+   16  df -h
+   17  cd ..
+   18  cd
+   19  ll
+   20  umount /shubhravolume/
+   21  df -h
+   22  blkid
+   23  vim /etc/fstab
+   24  sudo mount /dev/xvdf /shubhravolume/
+   25  df -h
+   26  cd
+   27  yum install lvm2
+   30  fdisk -l
+   31  fdisk /dev/xvdf
+   32  blkid
+   33  pvdisplay
+   34  pvcreate /dev/xvdf1
+   35  pvcreate /dev/xvdf1
+   36  pvcreate /dev/xvdf
+   37  pvdisplay
+   38  blkid
+   39  pvcreate /dev/xvdf1
+   40  df -h
+   41  umount /shubhravolume
+   42  df -h
+   43  blkid
+   44  pvcreate /dev/xvdf1
+   45  pvdisplay
+   46  vgcreate shubhra_VG /dev/sdf1
+   47  lvcreate --size 5G --name lv shubhra_VG
+   48  lvdisplay
+   49  mkfs.xfs /dev/shubhra_VG/lv
+   50  blkid
+   51  mkdir shubh
+   52  cd mkdir
+   53  cd shubh/
+   54  cd
+   55  vi /etc/fstab
+   56  vi /etc/fstab
+   57  mount -a
+   58  vi /etc/fstab
+   59  ls
+   60  pwd
+   61  vi /etc/fstab
+   62  mount -a
+   63  vi /etc/fstab
+   64  mount -a
+   65  df -h
+   66  lvdisplay
+   67  lvextend /dev/shubhra_VG/lv -L +3G /dev/xvdf1 -r -t
+To modify in existing volume: 
+lsblk
+sudo file -s /dev/xvda
+      sudo mkfs -t xfs /dev/xvdf
+
+ 23  mount -a
+   24  lsblk
+   25  sudo growpart /dev/xvda 1 (for xfs
+   26  sudo resize2fs /dev/xvda1 (for ext4)
+   27  sudo resize2fs /dev/xvda1
+
+

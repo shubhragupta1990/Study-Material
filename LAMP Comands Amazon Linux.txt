@@ -1,0 +1,74 @@
+    1  yum update -y   //security group http,https
+    2  yum install httpd -y
+    3  service httpd start
+    4  service httpd status
+    5  systemctl enable httpd
+    6  cd /var/www/html/
+    7  which wget (If not available then install) yum install wget
+   10  wget https://www.free-css.com/assets/files/free-css-templates/download/page279/ecourses.zip
+   11  which unzip (If not available then install) yum install unzip -y
+   12  ls 
+   13  unzip ecourses.zip
+   14  ls
+   15  mv online-courses-html-template/* . // move relative path to current directory
+   16  service httpd restart
+   17  yum install mariadb-server -y
+   18  systemctl enable --now mariadb
+   19  systemctl enable --now firewalld
+   20  mysql_secure_installation (Yes, Yes.....)
+   21  mysql -u root -p (create user and password in Mysql)
+   22  ctrl d for exit
+   23  yum install php* -y
+   24  service httpd restart
+   25  cd /var/www/html
+   26  vim info.php {I <?php
+                       phpinfo()
+                       ?> esc:wq
+   27  service httpd restart
+   28  cd
+   29  yum install firewalld
+   30  systemctl enable --now mariadb
+   31  firewall-cmd --add-port=443/tcp --permanent
+   31  firewall-cmd --add-port=443/udp --permanent
+   33  firewall-cmd --add-port=80/tcp --permanent
+   34  firewall-cmd --reload
+   35  firewall-cmd --list-all
+   36  firewall-cmd --add-service=http --permanent
+   37  systemctl restart httpd
+   
+   
+   39  yum install php7*
+   40  wget https://files.phpmyadmin.net/phpMyAdmin/4.4.5/phpMyAdmin-4.4.5-all-languages.zip
+sudo apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl /////
+   41  ls
+   42  unzip phpMyAdmin-4.4.5-all-languages.zip
+   43  ls
+   44  mv phpMyAdmin-4.4.5-all-languages /var/www/html
+   45  rm -rf /var/www/html/phpmyadmin
+   46  cd /var/www/html
+   47  mv phpMyAdmin-4.4.5-all-languages phpmyadmin
+
+search with public ip in browswer
+http://13.233.230.145
+http://13.233.230.145/info.php
+http://13.233.230.145/phpmyadmin(username-root and password which given)
+
+
+
+mysql -u root -p
+create database wordpress;
+Use databasename;
+CREATE USER 'wordpressuser'@'%' IDENTIFIED BY 'Qwer1234@';
+GRANT SELECT ON *.* TO 'wordpressuser'@'%';
+vi /etc/apache2/sites-available/wordpress.conf
+<Directory /var/www/wordpress/>
+	AllowOverride All
+</Directory>
+
+
+
+
+
+
+
+    

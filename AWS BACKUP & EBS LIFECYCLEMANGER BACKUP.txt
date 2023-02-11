@@ -1,0 +1,11 @@
+1. AWS BACKUP > build a new plan > plan name > rule name > frequency(daily) > customized backup window > start time UTC > start within 1 hour > complete within 2 hours > 
+retention period > if select destination region then 2 copies will be taken(1 default+1 selected region) > create plan
+
+2. Resource name > IAM role > include resource types > assign resource  > continue
+
+EBS Backup ::
+1. Lifecycle manager > create a new lifecyclerule >policy type > name select instance > add > enable policy status > instance reboot (NO) > next
+
+2. shedule details > frequency > starting at UTC > retention type > count- no of hours or age- no of days > expire > review plicy > create policy
+
+//can disable or modify shedule also

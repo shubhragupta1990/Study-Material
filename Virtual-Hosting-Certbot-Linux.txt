@@ -1,0 +1,107 @@
+yum update -y
+yum install epel-release -y
+yum install httpd -y
+service httpd start
+systemctl enable httpd
+sestatus   (If the SELinux is active, then we have to deactivate the SELinux security first.)
+sudo setenforce 0
+vi /etc/httpd/conf/httpd.conf (All override granted and remove html from root to show document root because that is in www)
+mkdir -p /var/www/shubhra321.tk/public_html
+mkdir -p /var/www/shubhra543.tk/public_html
+///If you want to allow the other user to access and modify the files in the Document Root then you can change the ownership with the chown command.
+
+chown -R $USER:$USER /var/www/shubhra321.tk
+chown -R $USER:$USER /var/www/shubhra543.tk
+chmod -R 755 /var/www
+vim /var/www/shubhra321.tk/index.html
+<html>
+  <head>
+    <title>Welcome to SHUBHRA GUPTA !</title>
+  </head>
+  <body>
+    <h1>Success! The shubhra321.tk virtual host is working perfectly !</h1>
+  </body>
+</html>  esc:wq
+vim /var/www/shubhra543.tk/index.html
+<html>
+  <head>
+    <title>Welcome to ROHIT GUPTA !</title>
+  </head>
+  <body>
+    <h1>Success! The shubhra543.tk virtual host is working perfectly !</h1>
+  </body>
+</html> esc:wq
+mkdir /etc/httpd/sites-available
+mkdir /etc/httpd/sites-enabled
+vim /etc/httpd/conf/httpd.conf
+////Add this line to the end of the file. so apache can include the file to read the configuration
+IncludeOptional sites-enabled/*.conf
+vim /etc/httpd/sites-available/shubhra321.tk.conf
+<VirtualHost *:80>
+
+    ServerName www.shubhra321.tk
+    ServerAlias shubhra321.tk
+    DocumentRoot /var/www/shubhra321.tk
+    ErrorLog /var/www/shubhra321.tk/error.log
+    CustomLog /var/www/shubhra321.tk/requests.log combined
+</VirtualHost> esc:wq
+vim /etc/httpd/sites-available/shubhra543.tk.conf
+<VirtualHost *:80>
+
+    ServerName www.shubhra543.tk
+    ServerAlias shubhra543.tk
+    DocumentRoot /var/www/shubhra543.tk
+    ErrorLog /var/www/shubhra543.tk/error.log
+    CustomLog /var/www/shubhra543.tk/requests.log combined
+</VirtualHost> esc:wq
+sudo ln -s /etc/httpd/sites-available/shubhra321.tk.conf /etc/httpd/sites-enabled/shubhra321.tk.conf
+sudo ln -s /etc/httpd/sites-available/shubhra543.tk.conf /etc/httpd/sites-enabled/shubhra543.tk.conf
+systemctl restart httpd
+
+To show website:
+cd /var/www/shubhra321.tk
+wget https://www.free-css.com/assets/files/free-css-templates/download/page279/ecourses.zip
+unzip ecourses.zip
+mv online-courses-html-template/* .
+service httpd restart
+cd /var/www/shubhra543.tk
+same as previous
+
+///For custom port
+vi /etc/httpd/conf/httpd.conf 
+I{Listen custom port}
+vi /etc/apache2/sites-enabled/shubhra321.tk.conf
+I{give port}
+</VirtualHost>
+<Directory /var/www>
+ Options  +FollowSymlinks
+ AllowOverride All
+ Require all granted
+</Directory>
+
+
+<VirtualHost *:8778>
+
+    ServerName www.shubhra321.tk
+    ServerAlias shubhra321.tk
+    DocumentRoot /var/www/shubhra321.tk
+    ErrorLog /var/www/shubhra321.tk/error.log
+    CustomLog /var/www/shubhra321.tk/requests.log combined
+</VirtualHost>
+esc:wq
+curl shubhra543.tk:8778( to check custom port page)
+
+add listner in ALB in forward to custom port and my target select there
+
+
+
+CERTBOT::::
+  apt install certbot python3-certbot-apache
+  certbot --version
+  certbot --apache -d shubhra321.tk -d www.shubhra321.tk
+  certbot --apache -d hnsharma23nav.tk -d www.hnsharma23nav.tk
+  certbot renew --dry-run
+  systemctl status certbot.timer
+
+
+// Fo renew Letsencrypt SSL Certificate CENTOS -  sudo certbot renew

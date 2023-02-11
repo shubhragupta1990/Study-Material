@@ -1,0 +1,49 @@
+sudo apt update -y                
+sudo apt install mysql-server -y
+yum install mysql mysql-server (in Amazone Linux)
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'Qwer1234!';
+sudo mysql_secure_installation -y
+mysql -u root -p
+sudo mysql
+#ALTER USER 'root'@'localhost' IDENTIFIED BY 'Qwer1234!'; (To ulter mysql root password)  ///localhost =% when connect with rds endpoints
+create database shubhra_db; (to create database in root user)
+Use databasename;
+CREATE USER 'shubhra'@'%' IDENTIFIED BY 'Qwer1234@';
+1. GRANT ALL PRIVILEGES ON shubhra_db.* TO 'shubhra'@'%'; root user-(give permission to shubhra user by root user for specific database)/////
+2. GRANT ALL PRIVILEGES ON shubhra_db.* TO 'shubhra'@'%'; (to give all permisions)
+ FLUSH PRIVILEGES;
+3. REVOKE ALL PRIVILEGES ON shubhra_db.* TO 'shubhra'@'%'; (to revoke permissions) /////
+4. GRANT SELECT ON *.* TO 'dipika'@'%'; (to all privillages) (To give read only permissions for all databases)////
+5. GRANT SELECT ON shubhra_db.* TO 'dipika'@'%'; (to all privillages) (To give read only permissions for specific databases)
+CREATE TABLE shubhra_db(title VARCHAR(50) NOT NULL,genre VARCHAR(30) NOT NULL,director VARCHAR(60) NOT NULL,release_year INT NOT NULL,PRIMARY KEY(title));///To create table
+INSERT INTO shubhra_db VALUE ("Joker", "psychological thriller", "Todd Phillips", 2019); /// to put value in table
+DESCRIBE tablename; (To check table)
+4. select * FROM shubhra_db (to check table)
+5. GRANT CREATE ON shubhra_db.* TO 'nitin'@'%' (to give permissions only to create table in shubhra_db database)
+6. GRANT CREATE ON *.* TO 'nitin'@'%'  (to give permissions to create database and table also)
+
+
+
+
+//For creating database and user and provide permissions:
+mysql -h shobiz-rds-may-2022-cluster.cluster-csau4csar5he.ap-south-1.rds.amazonaws.com -P 3306 -u admin -p;   (rds endpoint and password require )
+create database egypt_database;
+CREATE USER 'egypt_user'@'%' IDENTIFIED BY '9Tax62R%6m^d';
+//go to that user
+mysql -h shobiz-rds-may-2022-cluster.cluster-csau4csar5he.ap-south-1.rds.amazonaws.com -P 3306 -u egypt_user -p;
+GRANT ALL PRIVILEGES ON egypt_database.* TO 'egypt_user'@'%';
+
+Backup   
+https://stackoverflow.com/questions/13484667/downloading-mysql-dump-from-command-line
+sudo mysqldump -u [user] -p [database_name] > [filename].sql
+
+To include more than one database in the backup dump file:
+
+sudo mysqldump -u [user] -p [database_1] [database_2] [database_etc] &gt; [filename].sql
+
+
+
+sudo mysqldump -u root -p sama_dashbd_4_db > sama_dashbd_4_db.sql
+GRANT ALL PRIVILEGES ON *.* TO 'madabranding-usr'@'%';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '1234';

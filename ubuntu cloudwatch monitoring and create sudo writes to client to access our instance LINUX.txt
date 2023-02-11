@@ -1,0 +1,35 @@
+-sudo apt-get update
+-sudo apt-get install unzip
+-sudo apt-get install libwww-perl libdatetime-perl
+-attach iam role(full access to ec2 and cloudwatch)
+-curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O
+-unzip CloudWatchMonitoringScripts-1.2.2.zip 
+-rm CloudWatchMonitoringScripts-1.2.2.zip
+-cd aws-scripts-mon
+-./mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --disk-space-util --disk-path=/
+-open cloudwatch service(create disc,memory and cpu utilization for linux)  //Monitoring Done
+
+
+
+* administration key not share with client create user and create key for give sudo writes to client.
+-adduser nitin
+-CTRL+D(FOR LOGOUT ACCESS THROUGH ROOT USER)
+-vim /etc/sudoers(in root  user)
+        -[add nitin just root kai niche
+          root  ALL=(ALL:ALL) ALL
+          shubhra ALL=(ALL:ALL) ALL)]
+-save forcefully ( :wq!)
+-su nitin
+-ssh-keygen
+-cd 
+-ll ( check .ssh file is there or not)
+-cd .ssh 
+-ll( check id-rsa and id-rsa.pub file is there or not)
+-mv id_rsa.pub authorized_keys
+-cat id_rsa
+-chmod 600 authorized_keys(.ssh location)
+(save this private key as ppk format)
+-then access unbuntu again with public ip and this private key.by default private key is in pem format convert it into ppk through puttygen and then access through putty.
+-and agar private key pem mai hi rhakni hai then access through mobaxtem
+
+

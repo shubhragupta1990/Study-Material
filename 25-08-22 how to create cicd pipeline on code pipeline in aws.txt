@@ -1,0 +1,33 @@
+1. create instance in aws ubuntu/amazon-linux
+1. create application on code deploy
+2. create deployment group in application
+3. make a git hub repository and make "appsec.yaml" file and "index.html" on that
+   copy bellow data into appsec.yml file (you will get aws docs) 
+   version: 0.0
+   os: linux
+   files:
+   - source: /
+   destination: /var/www/html/
+4. Go to the terminal
+   -install any webserver
+   -create script on that (bony.sh)
+     edit and enter the details in that
+      #!/bin/bash
+      sudo apt-get update
+      sudo apt-get install ruby
+      sudo apt-get install wget
+      cd /home/ubuntu
+      wget https://aws-codedeploy-ca-central-1.s3.ca-central-1.amazonaws.com/latest/install
+      chmod +x ./install
+      sudo ./install auto
+  Save the file and run it (sh bony.sh)
+  (systemctl status codedeploy-agent)
+5.now create 2 role in IAM 
+   1 for code deploy
+   1 for ec2 instance
+ add policy as "system administraror" and "ec2fullaccess"
+6. attach the ec2 policy to the instance 
+7. create pipeline using applkication and deployemnt gruop
+8. now pipeline will work
+
+/////////////////////////////////////////////////////////////////////////////////////////////

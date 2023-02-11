@@ -1,0 +1,19 @@
+crontab -e
+* * * * * php /var/www/html/uat.policylo.com/artisan schedule: run 1>> /dev/null 2>&1
+
+#for every minute > command>path === Required
+esc:wq
+crotab -l
+to verify
+crontab -e
+to show installing
+
+
+
+
+To remove crontab:
+
+crontab -e   // to go file
+#cronjob   (ctrlx+enter)
+
+crontab  -l   //to verify

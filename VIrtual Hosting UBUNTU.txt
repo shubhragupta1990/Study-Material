@@ -1,0 +1,58 @@
+sudo su
+cd
+apt update -y
+apt-get install apache2 -y
+systemctl start apache2
+systemctl enable apache2 
+systemctl status apache2 
+sudo mkdir -p /var/www/shubhra321.tk/public_html
+sudo mkdir -p /var/www/test.shubhra321.tk/public_html
+sudo chown -R $USER:$USER /var/www/shubhra321.tk/public_html
+sudo chown -R $USER:$USER /var/www/test.shubhra321.tk/public_html
+sudo chmod -R 755 /var/www
+vi /var/www/shubhra321.tk/public_html/index.html
+SERVER!!!!!!!111111
+esc:wq
+cp /var/www/shubhra321.tk/public_html/index.html /var/www/test.shubhra321.tk/public_html/index.html (copy content from 1st to 2nd modify 2nd accordingly)
+vi /var/www/test.shubhra321.tk/public_html/index.html
+SERVER@@@2222222222222
+esc:wq
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/shubhra321.tk.conf
+sudo vi /etc/apache2/sites-available/shubhra321.tk.conf
+<VirtualHost *:80>
+
+      {{ServerName www.shubhra321.tk
+        ServerAlias shubhra321.tk
+        DocumentRoot /var/www/shubhra321.tk}} comment error log
+
+  
+     ServerAdmin admin@shubhra321.tk
+     ServerName shubhra321.tk
+     ServerAlias www.shubhra321.tk
+     DocumentRoot /var/www/shubhra321.tk/public_html
+
+     #ErrorLog ${APACHE_LOG_DIR}/error.log
+     #CustomLog ${APACHE_LOG_DIR}/access.log combined
+    
+</VirtualHost>
+sudo cp /etc/apache2/sites-available/shubhra321.tk.conf /etc/apache2/sites-available/test.shubhra321.tk.conf (copy & change according 2nd domain)
+sudo vi /etc/apache2/sites-available/test.shubhra321.tk.conf
+
+<VirtualHost *:80>
+  
+     ServerAdmin admin@test.shubhra321.tk
+     ServerName test.shubhra321.tk
+     ServerAlias www.test.shubhra321.tk
+     DocumentRoot /var/www/test.shubhra321.tk/public_html
+
+     ErrorLog ${APACHE_LOG_DIR}/error.log
+     CustomLog ${APACHE_LOG_DIR}/access.log combined
+    
+</VirtualHost>
+sudo a2ensite shubhra321.tk.conf
+sudo a2ensite test.shubhra321.tk.conf
+systemctl reload apache2
+sudo a2dissite 000-default.conf
+systemctl reload apache2
+sudo apache2ctl configtest  (test for configuration error)
+sudo systemctl restart apache2

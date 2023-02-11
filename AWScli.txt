@@ -1,0 +1,33 @@
+windows> goto cmd: 
+c:\>msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
+c:\>aws --version     //to verify
+
+aws configure
+AWS Access Key ID [None]: <your access key>
+AWS Secret Access Key [None]: <your secret key>
+Default region name [None]: <your region name>
+Default output format [None]: ENTER
+
+
+
+C:\Users\Shubhra\Downloads
+ssh -i /path/key-pair-name.pem instance-user-name@instance-public-dns-name
+ssh -i "Linux-key (2).pem" ec2-user@54.163.32.2    /// ex to connect server with awscli
+
+
+
+aws s3 mb s3://bucket-name   //to create bucket
+aws s3 rb s3://bucket-name   //TO remove   
+aws s3 rb s3://bucket-name --force
+
+
+
+
+download: s3://gritfy-s3-bucket1/testdir3/testfile1 to testdir3/testfile1              //to download
+
+
+
+aws s3 cp s3://mybucket . --recursive  ///to copy data 
+
+aws s3 sync  s3://bucketname .    //copy data from local to s3
+aws s3 sync . s3://bucketname

@@ -1,0 +1,12 @@
+Create domain from freenom
+Create hosted zone in route 53
+Update nameserver in Freenom domain
+Create ACM goto certificate and crate cname record for SSl
+Create load balancer & target group & attach instance in target group
+ALB DNS string update in A record (Alias)
+add listner redirect http to https
+and forward httpd to target group
+virtual hosting of domain in /var/www/html
+
+
+

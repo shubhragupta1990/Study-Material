@@ -1,0 +1,401 @@
+UseCase1
+----------
+Start an nginx container in detached mode and name it webserver.Map the external port of docker host 8080 with internal port 80 of container
+
+1 Start nginx as a container
+  dcoker run -d -p 8080:80 --name webserver nginx
+
+2 To access the nginx 
+  Launch any browser
+  ipaddress-of-dockerhost:8080
+
+UseCase2
+---------
+Start a tomcat container and publish the port numbers,and git it a name mytomcat
+
+1 Start tomcat
+  docker run --name mytomcat -d -P tomcat
+
+2 To find the ports of tomcat
+  docker port mytomcat
+
+3 To see the home page of tomcat
+  Launch any browser
+  ipaddrsss-of-dockerhost:32768 (external port displayed in                                          the above command)
+
+
+UseCase 3
+------------
+Start an ubuntu container and go into its interactive terminal.Fire some linux commands in it
+
+1 Start ubuntu as a container
+  docker run --name myubuntu -it ubuntu
+
+2 In the container we can run linux commands
+
+3 To come out of the container
+  exit
+
+UseCase4
+---------
+Start mysql as a container.Go into its interactive terminal
+and login into the database,Create some sql tables
+
+1 Start mysql as a container
+  docker run -d --name abcd-mysql -e MYSQL_ROOT_PASSWORD=abcd mysql
+
+2 To open interactive terminal in the already running                                              container
+  docker exec -it abcd-mysql bash
+
+  In the container to login into the db
+  mysql -u root -p
+  Enter password
+
+3 To see the list of default availabel databases
+  show databases;
+
+4 To switch into any of the above databases
+  use dbname;
+
+5 To create some tables in this db
+  Open
+  https://justinsomnia.org/2009/04/the-emp-and-dept-                                        tables-for-mysql/
+  Copy the code for creating emp and depttables
+  Paste in the mysql container
+
+6 select * from emp;
+  select * from dept;
+
+usecase 5
+
+Start 2 busybox contianers and link them with each other
+
+1 Start a busybox container name it c1
+  docker run -it --name c1 busybox
+  Come out of the contianer without exit(ctrl+p,Ctrl+q)
+
+2 Start another busybox container and link with first   container 
+  docker run -it --name c2 --link c1:c1alias busybox
+  In c2 container
+  ping c1 (It should ping)
+
+Creating Development environment with docker
+
+usecase 6
+
+Create a mysql container and link it with wordpress container.Once the linking is done a developer should be able to create a wordpress website.
+
+1 Start mysql as a container
+  docker run -d --name abcd-mysql -e MYSQL_ROOT_PASSWORD=abcd mysql:5
+
+2 Start a wordpress container and link it with mysql
+  docker run -d --name abcd-wordpress -p 8080:80 --link abcd-mysql:mysql wordpress
+
+3 To create a wordpress website
+  Launch any browser
+  ipaddress-of-dockerhost:8080
+
+usecase 7
+
+Create a setup for implementing ci-cd through jenkins
+
+1 Start jenkins as a container
+  docker run -d --name jenkinsserver -p 6060:8080 jenkins
+  To see the home page of jenkins
+  Launch any browser
+  ipaddress-of-dockerhost:6050
+
+2 Start tomcat as qa server and link with jenkins
+  docker run -d --name qaserver --link jenkinsserver:jenkins -p 9090:8080 tomcat
+
+3 Start tomcat as prod server and link with jenkins
+  docker run -d --name prodserver --link  jenkinsserver:jenkins -p 7070:8080 tomcat
+  to see the homepage of tomcat (qaserver and prodserver)
+  ipaddress-of-dockerhost:6060
+  ipaddress-of-dockerhost:7070
+
+
+
+ usecase -8
+
+Start a selenium hub container
+Start 2 selenium node containers and link them with the selenium hub container
+Run the selenium testing programs
+
+
+1 Start selenium hub container
+  docker run --name hub -P -d selenium/hub
+
+2 Start a node which has firefox installed on it and link   with hub container
+  docker run -d --name firefox --link  hub:selenium -P -e HUB_HOST=hub selenium/node-firefox-debug
+
+3 Start another node which has chrome installed on it and     link   with hub container
+  docker run -d --name chrome --link  hub:selenium -P -e HUB_HOST=hub  selenium/node-chrome-debug
+
+4 To see the ports of hub,firefox and chrome nodes
+  docker ports hub
+  docker port firefox
+  docker ports chrome
+
+5 The chrome node and firefox nodes are GUI nodes
+  We can see them by installing a s/w called vnc viewer
+
+6 Install vnc viewer-->Enter ipaddress-of-dockerhost:port number of firefox or chrome container
+
+7 Enter password as "secret"
+
+usecase -9
+
+Create a docker compose file for linking a wordpress contianer with mysql container
+
+vim docker-compose.yml
+
+---
+version: '3'
+services:
+ abcd-mysql:
+  image: mysql:5
+  environment:
+   MYSQL_ROOT_PASSWORD: abcd
+
+ abcd-wordpress:
+  image: wordpress
+  ports:
+   - 5050:80
+...
+
+Save and quit(:wq)
+To start all the services in the compose file
+docker-compose  up -d
+
+To stop the service
+docker-compose stop
+
+
+uscaes -10
+
+Create docker compose file for starting a jenkins contianer and link with two tomcat containers so that we can implement CI-CD
+
+vim docker-compose.yml
+version: '3'
+
+services:
+ jenkinsserver:
+  image: jenkins
+  ports:
+   - 6600:8080
+
+ qaserver:
+  image: tomcat
+  ports:
+   - 7700:8080
+  links:
+   - jenkinsserver
+
+ prodserver:
+  image: tomcat
+  ports:
+   - 8800:8080
+  links:
+   - jenkinsserver
+
+Save and quit
+docker-compose up -d
+To see the home page of jenkins
+Launch any browser
+ipaddress-of-dockerhost:6600
+To see the home page of qa and prodserver
+Launch any browser
+ipaddress-of-docker-host:7700
+ipaddress-of-docker-host:8800
+
+usecase --11
+
+Create a docker compose file for setup of the QA environment.Create seelnium hub container and link it with two node contianers
+
+vim docker-compose.yml
+
+version: '3'
+services:
+
+ hub:
+  image: selenium/hub
+  ports:
+   - 4444:4444
+
+ firefox:
+  image: selenium/node-firefox-debug
+  ports:
+   - 5901:5900
+  environment:
+   HUB_HOST: hub
+  links:
+   - hub
+
+ chrome:
+  image: selenium/node-chrome-debug
+  ports:
+   - 5902:5900
+  environment:
+   HUB_HOST: hub
+  links:
+   - hub
+
+
+usecase--12
+
+Create a ubuntu container and install git in it
+Save that container as an image(snpashot)
+Start a container from this new image and we should find git
+installed on it
+
+1 Start ubuntu as a contianer
+  docker run -it --name myubuntu ubuntu
+
+2 In the container
+  apt-get update
+  apt-get install -y git
+  exit
+
+3 Save the container as an image
+  docker commit containerid/containername new-imagename
+  Eg
+  docker commit myubuntu ubuntu1
+
+4 Start a container from the above image and we will find 
+  git preinstalled on it
+  docker run -it ubuntu1
+  In the container
+  git --version
+
+use-case 13
+
+vim dockerfile
+
+FROM ubuntu
+MAINTAINER abcd
+
+
+Save and quit
+To create an image from thw above docker file
+docker build -t myubuntu .
+Note -t reperesents tagname ie some name for the image
+      that we are creating
+     . represents current working dir ie it will read the dockerfile present in the current working dir and create an image
+
+
+usecase -- 14
+Create a dockerfile from centos baseimage and install git in it
+
+vim dockerfile
+
+FROM centos
+MAINTAINER abcd
+
+RUN yum -y install git
+
+Save and quit
+Build an image from this dockerfile
+docker build -t newcentos .
+Start a container from the above image
+docker run -it --name centos newcentos
+In the centos container
+git --version
+
+usecase--15
+
+Create a directory /data on the host machine
+Create an ubuntu container and mount this /data
+as a volume on this contianer.Create some files in this mounted
+volume and check if the files are still available on the host
+machine even when the container is deleted
+
+1 Create a directory /data
+  mkdir /data
+
+2 Create an ubuntu container and mount /data as a volume
+  docker run --name u1 -it -v /data ubuntu
+
+3 In the ubuntu u1 container go into data folder(mounted volume)
+  and create some files
+  cd data
+  touch file1 file2
+  exit
+
+4 Indentify the mounted locations
+  docker inspect u1
+  Go to "Mounts" sections and copy the "Source" path
+  
+5 Delete the container
+  docker rm -f u1
+
+6 Check if the data is still present on host machine
+  cd "Source_path_from_step4"
+  ls
+
+usecase --16
+
+Create a folder /data on the dockerhost.mount it as a volume on
+centos container c1,later create another centos container c2
+and this c2 should use the volume used by c1,create another
+centos container c3 and this should use the volume used by c2
+Delete all three containers and check if the data is still present 
+on the host machine
+
+1 Create /data folder
+  mkdir /data
+
+2 Start centos as a container and mount /data as a volume 
+  docker run --name c1 -it -v /data centos
+
+3 In the centos c1 container go into the volume and create files
+  cd data
+  touch file1 file2
+  Come out of the container without exit (ctrl+p,ctrl+q)
+
+4 Create another centos container c2 and this container should use
+  the volume used by c1
+  docker run --name c2 -it --volumes-from c1 centos
+
+5 In the centos c2 container go into the volume and create files
+  cd data
+  touch file3 file4
+  Come out of the container without exit (ctrl+p,ctrl+q)
+
+6 Create another centos container c3 and this container should use
+  the volume used by c2
+  docker run --name c3 -it --volumes-from c2 centos
+
+7 In the centos c3 container go into the volume and create files
+  cd data
+  touch file5 file6
+  Come out of the container without exit (ctrl+p,ctrl+q)
+
+8 Go into any of the 3 containers and we should see all the files
+  docker attach c1 (or) c2 (or) c3
+  ls
+  exit
+
+9 Identify the mounted location
+  docker inspect c1
+  Go to "Mounts" section and copy the "Source" path
+
+10 Delete all the 3 containers
+   docker rm -f c1 c2 c3
+
+11 Check if the files are still available on the host machine
+   cd "source path coped from step 9"
+   ls
+
+
+
+
+
+
+
+
+
+
+
+
+

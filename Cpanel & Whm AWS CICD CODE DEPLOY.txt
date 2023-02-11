@@ -1,0 +1,28 @@
+Launch centos7 from market place
+
+yum install wget -y
+yum install perl -y
+yum install curl -y
+hostnamectl set-hostname cpanel.shubhra321.tk
+curl -o latest -L https://securedownloads.cpanel.net/latest
+sh latest
+//https://IP:2087    (CPANEL)
+Goto login url(whmlogin) - username= root,  passwd= root password
+provide mail id > put nameserver > finish
+//https://IP:2083     (WHM)
+Create username and password > and login in cpanel with that username and password
+
+
+
+CODE DEPLOY FOR AWS CICD PIPELINE:
+#!/bin/bash
+sudo apt-get update
+sudo apt-get install ruby
+sudo apt-get install wget
+cd /home/ubuntu
+wget https://aws-codedeploy-ca-central-1.s3.ca-central-1.amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto
+
+
+https://15.206.118.95:2087/cpsess1725820221/scripts4/listaccts

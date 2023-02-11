@@ -1,0 +1,52 @@
+///QUERY///
+
+exec msdb.dbo.rds_backup_database 
+@source_db_name='database_name', @s3_arn_to_backup_to='arn:aws:s3:::bucket_name/file_name_and_extension', 
+@overwrite_S3_backup_file=1;
+
+
+
+*******************{for checking rds backup/restore status check}************
+exec msdb.dbo.rds_task_status @task_id=5
+
+
+
+exec msdb.dbo.rds_restore_database 
+@restore_db_name='LabourMIS', 
+@s3_arn_to_restore_from='arn:aws:s3:::db-migration-6-8-21/LabourMIS_2021-29-07-03-00.bak',
+
+
+
+
+
+
+
+//////Create RDS mysql database and s3 bucket
+
+Download workbench(go to c drive program file > mysql >mysql workbench 8.0 >CMD
+
+mysqldump -h [db_hostname] -u [db_user] -p[db_passwd] [databasename] | aws s3 cp - s3://[s3_bucketname]/[mysqldump_filename]
+
+EX: mysqldump -h database-1.csw9vmjedy9b.ap-south-1.rds.amazonaws.com -u shubhra -p db1 | aws s3 cp - s3://myrdsbucketshubhra/mysqldumb.sql
+
+
+
+exec msdb.dbo.rds_backup_database 
+@source_db_name='database_name', @s3_arn_to_backup_to='arn:aws:s3:::bucket_name/file_name_and_extension', 
+@overwrite_S3_backup_file=1;
+
+EX: exec msdb.dbo.rds_backup_database 
+@source_db_name='shubh_db', 
+@s3_arn_to_backup_to='arn:aws:s3:::myrdsbucketshubhra/mysql1.bak',
+@overwrite_S3_backup_file=1;
+exec msdb..rds_task_status(To check status)
+exec msdb.dbo.rds_task_status @task_id=5
+
+
+
+exec msdb.dbo.rds_restore_database 
+@restore_db_name='LabourMIS', 
+@s3_arn_to_restore_from='arn:aws:s3:::db-migration-6-8-21/LabourMIS_2021-29-07-03-00.bak',
+
+
+http://13.234.136.78:8080//job/project3/build?token=mykey
