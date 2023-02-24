@@ -1,0 +1,34 @@
+10.9.4.252
+
+gbsinannualday2023.com
+
+
+Database details:
+
+database name:- gbsinannualday
+
+CREATE USER 'gbs_user'@'%' IDENTIFIED BY 'sdaEo5b7^bsf';
+
+GRANT ALL ON gbsinannualday.* TO 'gbs_user'@'%';\
+
+ FLUSH PRIVILEGES;
+
+
+Ftp details:-\
+server ip;- 10.9.4.252
+user:- gbsftp
+password:- %Tu8rs$w10!9
+
+/var/www/html/gbsinannualday2023.com
+
+chown -R gbsftp:gbsftp /var/www/html/gbsinannualday2023.com/
+usermod -d /var/www/html/gbsinannualday2023.com gbsftp
+
+chmod 755 /var/www/html/gbsinannualday2023.com/
+
+
+
+ns-1454.awsdns-53.org.
+ns-169.awsdns-21.com.
+ns-718.awsdns-25.net.
+ns-1786.awsdns-31.co.uk.
